@@ -13,8 +13,8 @@
     <a href="https://status.riniya.uk"><img src="https://img.shields.io/badge/Status-9766F5?&style=flat-square&logo=skynet&logoColor=white" alt="Website" /></a>
 </p>
 
-Hey, there is the discord bot, this include the backend and all the bot base.
- 
+This repo is still in work.
+
 #### How do I use it?
 It's very simple. All you need is git, a MongoDB server and Redis.
 
