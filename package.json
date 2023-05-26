@@ -76,5 +76,8 @@
     "next-translate-plugin": "^2.0.5",
     "stylelint": "^15.5.0",
     "stylelint-config-standard": "^33.0.0"
-}
+  },
+  "_moduleAliases": {
+    "@riniya.ts/*": "build"
+  }
 }
