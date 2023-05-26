@@ -47,6 +47,7 @@
     "next-translate": "^2.0.5",
     "postcss-scss": "^4.0.6",
     "react": "^18.2.0",
+    "module-alias": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-markdown": "^8.0.7",
@@ -78,6 +79,6 @@
     "stylelint-config-standard": "^33.0.0"
   },
   "_moduleAliases": {
-    "@riniya.ts/*": "build"
+    "@riniya.ts/": "build"
   }
 }

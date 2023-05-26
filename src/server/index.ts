@@ -1,6 +1,14 @@
 import * as dotenv from "dotenv";
 dotenv.config()
 
+global.__rootdir__ = __dirname || process.cwd();
+
+declare global {
+  var __rootdir__: string;
+}
+
+import 'module-alias/register';
+
 import Environement from "@riniya.ts/server/utils/Environement";
 import Authentication from "@riniya.ts/server/middleware/Authentication";
 import BaseRoute from "@riniya.ts/server/base/BaseRoute";
