@@ -13,13 +13,18 @@ import Environement from "@riniya.ts/server/utils/Environement";
 import Authentication from "@riniya.ts/server/middleware/Authentication";
 import BaseRoute from "@riniya.ts/server/base/BaseRoute";
 import Database from "@riniya.ts/server/database/index";
+import APIRoutes from "@riniya.ts/server/routes/api.routes";
+import AuthenticationRoutes from "@riniya.ts/server/routes/auth.routes";
+import BlacklistRoutes from "@riniya.ts/server/routes/blacklist.routes";
+import GuildRoutes from "@riniya.ts/server/routes/guild.routes";
+import UserRoutes from "@riniya.ts/server/routes/user.routes";
 import { Int, Str } from "@riniya.ts/types";
+
 import RateLimit from "express-rate-limit"
 import express, { Request, Response } from "express"
 import session from "express-session"
 import * as parser from "body-parser"
 import http from "http";
-
 
 const app = express();
 const limiter = RateLimit({
@@ -38,7 +43,7 @@ export default class ServerManager {
 
     public static instance: ServerManager
 
-    private routes: Array<BaseRoute> = new Array<BaseRoute>()
+    private routes: Map<Int, BaseRoute> = new Map<Int, BaseRoute>()
     private server: http.Server
 
     public readonly environement: Environement
@@ -66,6 +71,12 @@ export default class ServerManager {
             
             this.startServices()
         }
+
+        this.routes.set(0, new APIRoutes())
+        this.routes.set(1, new AuthenticationRoutes())
+        this.routes.set(2, new BlacklistRoutes())
+        this.routes.set(3, new GuildRoutes())
+        this.routes.set(4, new UserRoutes())
     }
 
     private startServices() {
@@ -103,7 +114,7 @@ export default class ServerManager {
             }).end()
         })
 
-        this.routes.map(x => {
+        this.routes.forEach(x => {
             if (x.isProtected())
                 app.use('/api/v1', Authentication.handle , x.routing())
             else 
