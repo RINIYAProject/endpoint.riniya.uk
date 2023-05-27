@@ -117,7 +117,7 @@ class AuthenticationController extends BaseController {
                 })
 
         await fetchUserByEmail(email).then(account => {
-            if (!isNull(account.identifier)) {
+            if (!isNull(account) && !isNull(account.identifier)) {
                 return throwError({
                     response: response,
                     request: {
@@ -130,7 +130,7 @@ class AuthenticationController extends BaseController {
         });
 
         await fetchUserByName(username).then(account => {
-            if (!isNull(account.identifier)) {
+            if (!isNull(account) &&!isNull(account.identifier)) {
                 return throwError({
                     response: response,
                     request: {
