@@ -16,7 +16,7 @@ export interface ResultOption<T> {
     data: T
 } 
 
-export abstract class BaseController {
+export default abstract class BaseController {
     public throwError(req: Base<ErrorOption>) {
         console.log(JSON.stringify(req.request))
 
