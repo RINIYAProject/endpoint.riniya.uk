@@ -41,12 +41,12 @@ export default class ServerManager {
     private routes: Array<BaseRoute>
     private server: http.Server
 
-    public readonly environement: Environement = new Environement()
+    public readonly environement: Environement
 
-    private readonly version: String = this.environement.read<Str>("VERSION") || "No version set."
-    private readonly revision: String = this.environement.read<Str>("REVISION") || "No revision set."
+    private readonly version: String
+    private readonly revision: String
 
-    private readonly database: Database = new Database()
+    private readonly database: Database
 
     public constructor() {
         if (this.environement.init()) {
@@ -55,10 +55,16 @@ export default class ServerManager {
             console.log("-> Configuration loaded.")
             console.log(`-> Version : ${this.version}`)
             console.log(`-> Revision : ${this.revision}`)
+            ServerManager.instance = this
+
+            this.environement = new Environement()
+            this.database = new Database()
+
+            this.version = this.environement.read<Str>("VERSION") || "No version set."
+            this.revision = this.environement.read<Str>("REVISION") || "No revision set."
 
             this.startServices()
             this.environement.catch<Error>()
-            ServerManager.instance = this
         }
     }
 
