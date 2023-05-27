@@ -68,15 +68,15 @@ export default class ServerManager {
             console.log("-> Configuration loaded.")
             console.log(`-> Version : ${this.version}`)
             console.log(`-> Revision : ${this.revision}`)
+
+            this.routes.set(0, new APIRoutes())
+            this.routes.set(1, new AuthenticationRoutes())
+            this.routes.set(2, new BlacklistRoutes())
+            this.routes.set(3, new GuildRoutes())
+            this.routes.set(4, new UserRoutes())
             
             this.startServices()
         }
-
-        this.routes.set(0, new APIRoutes())
-        this.routes.set(1, new AuthenticationRoutes())
-        this.routes.set(2, new BlacklistRoutes())
-        this.routes.set(3, new GuildRoutes())
-        this.routes.set(4, new UserRoutes())
     }
 
     private startServices() {
@@ -116,9 +116,9 @@ export default class ServerManager {
 
         this.routes.forEach(x => {
             if (x.isProtected())
-                app.use('/api/v1', Authentication.handle , x.routing())
+                app.use('/api', Authentication.handle , x.routing())
             else 
-                app.use('/api/v1', x.routing())
+                app.use('/api', x.routing())
         })
 
         this.server.listen(this.environement.read<Int>("PORT") || 3659)
