@@ -36,7 +36,7 @@ app.use(parser.json())
 
 export default class ServerManager {
 
-    private readonly instance: ServerManager
+    public readonly instance: ServerManager
 
     private routes: Array<BaseRoute>
     private server: http.Server
