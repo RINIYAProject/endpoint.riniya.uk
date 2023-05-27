@@ -57,7 +57,7 @@ class AuthenticationController extends BaseController {
              * @todo if (profile.security.isMFAEnabled) {}
              */
 
-            jwt.sign(profile, ServerManager.instance.environement.read<string>("JWT_SECRET_KEY").replaceAll('-', ''), {
+            jwt.sign(JSON.stringify(profile), ServerManager.instance.environement.read<string>("JWT_SECRET_KEY").replaceAll('-', ''), {
                 expiresIn: "30m"
             }, (error, token) => {
                 if (error) {
