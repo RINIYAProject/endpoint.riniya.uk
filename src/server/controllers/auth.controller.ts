@@ -78,7 +78,7 @@ class AuthenticationController extends BaseController {
                 response: response,
                 request: {
                     code: 403,
-                    error: undefined,
+                    error: "ACCOUNT_NOT_FOUND",
                     message: error.error
                 }
             })
