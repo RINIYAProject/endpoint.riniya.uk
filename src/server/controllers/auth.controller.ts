@@ -2,7 +2,7 @@ import { Result, createToken, fetchUser, fetchUserByEmail, fetchUserByName, isNu
 import { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware";
 import { BaseController } from "@riniya.ts/server/base/BaseController";
 import User, { Partials } from "@riniya.ts/server/database/models/User";
-import { finish, throwError } from "@riniya.ts/types.server";
+import { finish, sendEmail, throwError } from "@riniya.ts/types.server";
 import Encryption from "@riniya.ts/server/utils/Encryption";
 import ServerManager from "@riniya.ts/server/index";
 
@@ -57,6 +57,10 @@ class AuthenticationController extends BaseController {
              * @todo if (profile.security.isMFAEnabled) {}
              */
 
+            const token: string = jwt.sign(profile, ServerManager.instance.environement.read<string>("JWT_SECRET_KEY"), {
+                expiresIn: "30m"
+            });
+
             return finish<{
                 token: string;
             }>({
@@ -64,11 +68,7 @@ class AuthenticationController extends BaseController {
                 request: {
                     code: 200,
                     data: {
-                        token: jwt.sign(profile, ServerManager.instance.environement.read<string>("JWT_SECRET_KEY"), {
-                            issuer: "Riniya Security Provider",
-                            algorithm: "ES256",
-                            expiresIn: "30m"
-                        })
+                        token: token
                     }
                 }
             })
@@ -140,9 +140,11 @@ class AuthenticationController extends BaseController {
             }
         });
 
+        const identifier: string = v4().replaceAll('-', '') /** Removing the uuid separators */; 
+
         new User({
             roleIdentifier: ServerManager.instance.environement.read<string>("ACT_DEFAULT_ROLE"),
-            identifier: v4().replaceAll('-', '') /** Removing the uuid separators */,
+            identifier: identifier,
             username: username,
             password: Encryption.generateHash(password),
             email: email,
@@ -163,6 +165,13 @@ class AuthenticationController extends BaseController {
                 }
             })
         })
+
+        /**
+         * @param identifier
+         * @param type
+         * @description Sending the confirmation code to the owner of the account
+         * @todo const code: string = await createToken(identifier, "comfirm_email")
+         */
 
         return finish<{
             result: string;
@@ -191,15 +200,15 @@ class AuthenticationController extends BaseController {
             })
         
         await fetchUserByEmail(email).then(async account => {
-            const code: string = await createToken(account.identifier, "confirm_email")
+            const code: string = await createToken(account.identifier, "reset_password")
             /**
              * @description Sending comfirmation code to the receiver.
              * @todo
              */
 
-            return this.sendEmail(email, response)
+            return sendEmail(email, response)
         }).catch((err: Result) => {
-            return this.sendEmail(email, response)
+            return sendEmail(email, response)
         })
     }
 
@@ -210,25 +219,6 @@ class AuthenticationController extends BaseController {
                 code: 501,
                 error: "NYI",
                 message: "Not yet implemented."
-            }
-        })
-    }
-
-     /**
-      * @param email The email of the account owner.
-      * @param response Express response class.
-      * @description Sending a basic response, to avoid brutforcing.
-      */
-    private sendEmail(email: string, response: Response) {
-        return finish<{
-            result: string;
-        }>({
-            response: response,
-            request: {
-                code: 200,
-                data: {
-                    result: `A email has been sent to ${email}, If you have a account with us, you will receive a email.`
-                }
             }
         })
     }
