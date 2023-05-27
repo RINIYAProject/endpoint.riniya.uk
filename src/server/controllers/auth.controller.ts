@@ -57,23 +57,32 @@ class AuthenticationController extends BaseController {
              * @todo if (profile.security.isMFAEnabled) {}
              */
 
-            const token: string = jwt.sign(profile, ServerManager.instance.environement.read<string>("JWT_SECRET_KEY"), {
+            jwt.sign(profile, ServerManager.instance.environement.read<string>("JWT_SECRET_KEY").replaceAll('-', ''), {
                 expiresIn: "30m"
-            });
-
-            console.log(token) // DEBUG
-
-            return finish<{
-                token: string;
-            }>({
-                response: response,
-                request: {
-                    code: 200,
-                    data: {
-                        token: token
-                    }
+            }, (error, token) => {
+                if (error) {
+                    return throwError({
+                        response: response,
+                        request: {
+                            code: 403,
+                            error: "ENCRYPTION_ERROR",
+                            message: error.message
+                        }
+                    })
                 }
-            })
+
+                return finish<{
+                    token: string;
+                }>({
+                    response: response,
+                    request: {
+                        code: 200,
+                        data: {
+                            token: token
+                        }
+                    }
+                })
+            });
         }).catch((error: Result) => {
             return throwError({
                 response: response,
