@@ -148,12 +148,7 @@ class AuthenticationController extends BaseController {
             username: username,
             password: Encryption.generateHash(password),
             email: email,
-            profile: {
-                avatarURL: "https://cdn.riniya.uk/avatars/default.png",
-                bannerURL: "https://cdn.riniya.uk/banners/default.png",
-                language: "English",
-                country: "Not set."
-            },
+            profile: profile,
             security: {
                 isMFAEnabled: false,
                 isEmailVerified: false,

@@ -17,8 +17,6 @@ export interface ResultOption<T> {
 } 
 
 export function throwError(req: Base<ErrorOption>) {
-    console.log(JSON.stringify(req.request))
-
     return req.response.status(req.request.code).json({
         status: false, 
         error: req.request.error,
@@ -27,8 +25,6 @@ export function throwError(req: Base<ErrorOption>) {
 }
 
 export function finish<T>(req: Base<ResultOption<T>>) {
-    console.log(JSON.stringify(req.request))
-
     return req.response.status(req.request.code).json({
         status: true, 
         data: req.request.data
