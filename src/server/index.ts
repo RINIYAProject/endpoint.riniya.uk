@@ -38,7 +38,7 @@ export default class ServerManager {
 
     public static instance: ServerManager
 
-    private routes: Array<BaseRoute>
+    private routes: Array<BaseRoute> = new Array<BaseRoute>()
     private server: http.Server
 
     public readonly environement: Environement
