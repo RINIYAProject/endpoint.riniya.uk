@@ -61,6 +61,8 @@ class AuthenticationController extends BaseController {
                 expiresIn: "30m"
             });
 
+            console.log(token) // DEBUG
+
             return finish<{
                 token: string;
             }>({

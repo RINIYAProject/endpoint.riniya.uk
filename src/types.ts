@@ -39,7 +39,7 @@ export function isTypeNull<T>(object: unknown): Boolean {
 export async function fetchUser(username: string, password: string): Promise<IUser> {
     const profile = await User.findOne({username: username})
     return new Promise<IUser>((resolve, reject) => {
-        if (!isNull(profile) && isNull(profile.identifier)) {
+        if (isNull(profile) && isNull(profile.identifier)) {
             reject({
                 status: false,
                 error: "Please check the username or password."
