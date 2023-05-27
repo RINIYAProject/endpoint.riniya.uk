@@ -41,7 +41,7 @@ export default class ServerManager {
     private routes: Array<BaseRoute>
     private server: http.Server
 
-    private readonly environement: Environement = new Environement()
+    public readonly environement: Environement = new Environement()
 
     private readonly version: String = this.environement.read<Str>("VERSION") || "No version set."
     private readonly revision: String = this.environement.read<Str>("REVISION") || "No revision set."
@@ -110,10 +110,6 @@ export default class ServerManager {
 
     public static getInstance(): ServerManager {
         return this.instance
-    }
-
-    public getEnvironement(): Environement {
-        return this.environement
     }
 }
 

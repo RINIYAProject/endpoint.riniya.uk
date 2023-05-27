@@ -17,7 +17,7 @@ class ApiController extends BaseController {
         return response.status(200).json({
             status: true,
             data: {
-                invite_url: `https://discord.com/api/oauth2/authorize?client_id=${ServerManager.getInstance().getEnvironement().read<Str>("RINIYA_APP_IDENTIFIER")}&permissions=8&scope=bot`
+                invite_url: `https://discord.com/api/oauth2/authorize?client_id=${ServerManager.getInstance().environement.read<Str>("RINIYA_APP_IDENTIFIER")}&permissions=8&scope=bot`
             }
         })
     }
