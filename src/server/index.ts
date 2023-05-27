@@ -19,7 +19,7 @@ import BlacklistRoutes from "@riniya.ts/server/routes/blacklist.routes";
 import GuildRoutes from "@riniya.ts/server/routes/guild.routes";
 import UserRoutes from "@riniya.ts/server/routes/user.routes";
 import { Int, Str } from "@riniya.ts/types";
-
+import cors from "cors";
 import RateLimit from "express-rate-limit"
 import express, { Request, Response } from "express"
 import session from "express-session"
@@ -29,7 +29,7 @@ import http from "http";
 const app = express();
 const limiter = RateLimit({
     windowMs: 1 * 60 * 1000,
-    max: 3,
+    max: 4,
     skipSuccessfulRequests: true,
     message: {
         status: false,
@@ -91,6 +91,10 @@ export default class ServerManager {
 
     public startApp() {
         app.set("trust proxy", 1)
+        app.use(cors({
+            origin: this.environement.read<string>("CORS_ALLOWED_ORIGINS"),
+            methods: this.environement.read<string>("CORS_ALLOWED_METHODS")
+        }))
 
         app.use(session({
             secret: this.environement.read<string>("COOKIE_SESSION_SECRET"),

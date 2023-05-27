@@ -4,7 +4,7 @@ import { isNull } from "@riniya.ts/types"
 
 export default class Encryption {
     private static fetchSalt(): string {
-        return ServerManager.instance.environement.read<string>("SECURITY_SALT") || bcrypt.genSaltSync(10)
+        return ServerManager.instance.environement.read<string>("BCRYPT_SALT_ROUND") || bcrypt.genSaltSync(10)
     }
     
     public static generateHash(value: string): string {
