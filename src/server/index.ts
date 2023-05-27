@@ -53,7 +53,7 @@ export default class ServerManager {
         this.environement = new Environement()
         this.environement.catch<Error>()
         this.database = new Database()
-        
+
         this.version = this.environement.read<Str>("VERSION") || "No version set."
         this.revision = this.environement.read<Str>("REVISION") || "No revision set."
 
@@ -73,7 +73,6 @@ export default class ServerManager {
             console.log("-> Connected to the database.")
         } else {
             console.error("-> Impossible to reach the database.")
-            process.abort()
         }
 
         this.startApp()
