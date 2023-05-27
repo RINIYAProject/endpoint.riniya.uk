@@ -26,7 +26,7 @@ export function isTypeNull<T>(object: unknown): Boolean {
 export async function fetchUser(username: string, password: string): Promise<IUser> {
     const profile = await User.findOne({username: username, password: password})
     return new Promise<IUser>((resolve, reject) => {
-        if (isNull(profile) && isNull(profile.identifier)) {
+        if (!isNull(profile) && isNull(profile.identifier)) {
             reject({
                 status: false,
                 error: "Please check the username or password."
@@ -40,7 +40,7 @@ export async function fetchUser(username: string, password: string): Promise<IUs
 export async function fetchUserByName(username: string): Promise<IUser> {
     const profile = await User.findOne({username: username})
     return new Promise<IUser>((resolve, reject) => {
-        if (isNull(profile) && isNull(profile.identifier)) {
+        if (!isNull(profile) && isNull(profile.identifier)) {
             reject({
                 status: false,
                 error: "Please check the username or password."
@@ -54,7 +54,7 @@ export async function fetchUserByName(username: string): Promise<IUser> {
 export async function fetchUserById(identifier: string): Promise<IUser> {
     const profile = await User.findOne({identifier: identifier})
     return new Promise<IUser>((resolve, reject) => {
-        if (isNull(profile) && isNull(profile.identifier)) {
+        if (!isNull(profile) && isNull(profile.identifier)) {
             reject({
                 status: false,
                 error: "Please check the username or password."
@@ -70,7 +70,7 @@ export async function fetchUserByEmail(email: string): Promise<IUser> {
         email: email
     });
     return new Promise<IUser>((resolve, reject) => {
-        if (isNull(account) && isNull(account.identifier)) {
+        if (!isNull(account) && isNull(account.identifier)) {
             reject({
                 status: false
             })
