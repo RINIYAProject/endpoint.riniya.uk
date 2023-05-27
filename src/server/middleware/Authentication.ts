@@ -15,7 +15,7 @@ class Authentication extends BaseMiddleware {
             }).end();
         }
         
-        const decoded = jwt.verify(token, ServerManager.getInstance().environement.read<string>("JWT_SECRET_KEY"))
+        const decoded = jwt.verify(token, ServerManager.instance.environement.read<string>("JWT_SECRET_KEY"))
         if (isTypeNull<CustomRequest>(decoded)) {
             return response.status(500).json({
                 status: false,
