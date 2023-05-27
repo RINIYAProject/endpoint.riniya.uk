@@ -10,7 +10,7 @@ export interface Role {
 }
 
 export default mongoose.model<Role & mongoose.Document>("Role", new mongoose.Schema<Role & mongoose.Document>({
-    roleId: { type: String, required: true },
+    roleId: { type: String, required: true, unique: true },
     guildId: { type: String, required: true },
     type: { type: String, required: true },
     description: { type: String, maxlength: 100 },

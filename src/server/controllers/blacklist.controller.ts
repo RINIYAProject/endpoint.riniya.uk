@@ -9,7 +9,7 @@ import { Response } from "express";
 
 class BlacklistController extends BaseController {
     public async fetch(request: CustomRequest, response: Response) {
-        const identifier: string = request.body.identifier;
+        const identifier: string = request.params.identifier;
         if (isNull(identifier))
             return throwError({
                 response: response,

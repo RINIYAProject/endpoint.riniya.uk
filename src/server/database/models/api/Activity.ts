@@ -17,13 +17,13 @@ export interface Activity {
     memberId: string;
     type: string;
     action: string;
-    registeredAt: number;
+    registeredAt: Date;
 }
 
 export default mongoose.model<Activity & mongoose.Document>("Activity", new mongoose.Schema<Activity & mongoose.Document>({
-    guildId: { type: String },
-    memberId: { type: String },
-    type: { type: String },
-    action: { type: String },
-    registeredAt: { type: Number },
+    guildId: { type: String, required: true },
+    memberId: { type: String, required: true },
+    type: { type: String, required: true },
+    action: { type: String, required: true },
+    registeredAt: { type: Date, required: true },
 }));

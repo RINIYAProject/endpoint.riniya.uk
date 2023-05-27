@@ -10,10 +10,10 @@ export interface Sanction {
 }
 
 export default mongoose.model<Sanction & mongoose.Document>("Sanction", new mongoose.Schema<Sanction & mongoose.Document>({
-    guildId: { type: String },
-    memberId: { type: String },
-    type: { type: String },
-    reason: { type: String },
-    issuedBy: { type: String },
+    guildId: { type: String, required: true },
+    memberId: { type: String, required: true },
+    type: { type: String, required: true },
+    reason: { type: String, required: true },
+    issuedBy: { type: String, required: true },
     registeredAt: { type: Number, default: new Date().getTime() }
 }));

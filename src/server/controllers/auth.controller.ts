@@ -240,6 +240,17 @@ class AuthenticationController extends BaseController {
             }
         })
     }
+
+    public confirmEmail(request: CustomRequest, response: Response) {
+        return throwError({
+            response: response,
+            request: {
+                code: 501,
+                error: "NYI",
+                message: "Not yet implemented."
+            }
+        })
+    }
 }
 
 export default new AuthenticationController()

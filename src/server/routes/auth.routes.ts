@@ -8,5 +8,7 @@ export default class AuthenticationRoutes extends BaseRoute {
         this.router.post('/security/register', authController.register);
         this.router.post('/security/reset-password', authController.resetPassword);
         this.router.post('/security/account-recovery', authController.accountRecovery);
+
+        this.router.get('/security/confirm-email/:code', authController.confirmEmail);
     }
 }

@@ -51,14 +51,14 @@ export interface Guild {
 }
 
 export default mongoose.model<Guild & mongoose.Document>("Guild", new mongoose.Schema<Guild & mongoose.Document>({
-    guildId: { type: String },
-    ownerId: { type: String },
+    guildId: { type: String, required: true, unique: true },
+    ownerId: { type: String, required: true },
 
     premium: { type: Boolean, default: false },
     premiumTier: { type: String, default: "none" },
-    premiumHash: { type: String, default: "none" },
+    premiumHash: { type: String, default: "none", required: true, unique: true },
 
-    mainGuild: { type: Boolean, default: false },
+    mainGuild: { type: Boolean, default: false, required: true, unique: true },
 
     blacklist: { type: Boolean, default: false },
     blacklistReason: { type: String, default: "" },

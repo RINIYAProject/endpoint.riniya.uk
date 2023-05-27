@@ -170,7 +170,7 @@ export declare type Spouse = {
     childs?: Child[];
 }
 
-export interface IUser {
+export interface Profile {
     userId: string;
     player: Player;
     economy: Economy;
@@ -178,10 +178,10 @@ export interface IUser {
     spouse: Spouse;
 }
 
-export default mongoose.model<IUser & mongoose.Document>("DiscordUser", new mongoose.Schema<IUser & mongoose.Document>({
+export default mongoose.model<Profile & mongoose.Document>("Profile", new mongoose.Schema<Profile & mongoose.Document>({
     userId: { type: String, unique: true },
-    player: { type: Object },
-    economy: { type: Object },
-    level: { type: Object },
+    player: { type: Object, required: true },
+    economy: { type: Object, required: true },
+    level: { type: Object, required: true },
     spouse: { type: Object }
 }));

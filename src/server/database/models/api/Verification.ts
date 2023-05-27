@@ -24,21 +24,21 @@ export interface Verification {
     issuerId?: string;
     issuerName?: string;
     status?: string ;
-    answers?: Object;
+    answers?: Answer;
     registeredAt: number;
     updatedAt?: number;
     expireAt?: number;
 }
 
 export default mongoose.model<Verification & mongoose.Document>("Verification", new mongoose.Schema<Verification & mongoose.Document>({
-    guildId: { type: String },
-    memberId: { type: String },
-    memberName: { type: String },
-    issuerId: { type: String, default: 'pending' },
-    issuerName: { type: String, default: 'pending' },
-    status: { type: String, default: 'pending' },
-    answers: { type: Object },
-    registeredAt: { type: Number },
-    updatedAt: { type: Number },
-    expireAt: { type: Number }
+    guildId: { type: String, required: true },
+    memberId: { type: String, required: true },
+    memberName: { type: String, required: true },
+    issuerId: { type: String, default: 'pending', required: true },
+    issuerName: { type: String, default: 'pending', required: true },
+    status: { type: String, default: 'pending', required: true },
+    answers: { type: Object, required: true, unique: true },
+    registeredAt: { type: Number, required: true },
+    updatedAt: { type: Number, required: true },
+    expireAt: { type: Number, required: true }
 }));

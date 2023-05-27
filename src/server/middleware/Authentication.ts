@@ -1,4 +1,4 @@
-import BaseMiddleware, { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware"
+import BaseMiddleware, { CustomRequest, UserToken } from "@riniya.ts/server/base/BaseMiddleware"
 import ServerManager from "@riniya.ts/server/index"
 import { isNull, isTypeNull } from "@riniya.ts/types"
 import { NextFunction, Response } from "express"

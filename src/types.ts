@@ -1,7 +1,7 @@
 import { randomInt } from "crypto";
-import User, { User as IUser } from "./server/database/models/User";
-import UserToken from "./server/database/models/UserToken";
-import Encryption from "./server/utils/Encryption";
+import User, { User as IUser } from "@riniya.ts/server/database/models/User";
+import UserToken from "@riniya.ts/server/database/models/UserToken";
+import Encryption from "@riniya.ts/server/utils/Encryption";
 
 export declare type Str = String | string;
 export declare type Int = Number | number;
