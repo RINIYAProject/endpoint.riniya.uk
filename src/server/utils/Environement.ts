@@ -12,6 +12,18 @@ export default class Environement {
             return this.print("CORS_ALLOWED_ORIGINS")
         else if (this.unset("CORS_ALLOWED_METHODS"))
             return this.print("CORS_ALLOWED_METHODS")
+        else if (this.unset("PORT"))
+            return this.print("PORT")
+        else if (this.unset("ENVIRONEMENT"))
+            return this.print("ENVIRONEMENT")
+        else if (this.unset("JWT_SECRET_KEY"))
+            return this.print("JWT_SECRET_KEY")
+        else if (this.unset("BCRYPT_SALT_ROUND"))
+            return this.print("BCRYPT_SALT_ROUND")
+        else if (this.unset("COOKIE_SESSION_SECRET"))
+            return this.print("COOKIE_SESSION_SECRET")
+        else if (this.unset("RINIYA_APP_IDENTIFIER"))
+            return this.print("RINIYA_APP_IDENTIFIER")
         return false
     }
 

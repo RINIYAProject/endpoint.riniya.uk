@@ -5,7 +5,7 @@ import { Bool } from "@riniya.ts/types";
 export default class Database {
     public connectMongoDB(): Boolean {
         let state: Bool
-        mongoose.connect(serverManager.getEnvironement().read<string>("MONGODB_URL"), {
+        mongoose.connect(ServerManager.getInstance().getEnvironement().read<string>("MONGODB_URL"), {
 
         }).then(() => {
             state = true

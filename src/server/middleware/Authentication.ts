@@ -1,5 +1,5 @@
 import BaseMiddleware, { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware"
-import { serverManager } from "@riniya.ts/server/index"
+import ServerManager from "@riniya.ts/server/index"
 import { isNull, isTypeNull } from "@riniya.ts/types"
 import { NextFunction, Response } from "express"
 import jwt from "jsonwebtoken"
@@ -15,7 +15,7 @@ class Authentication extends BaseMiddleware {
             }).end();
         }
         
-        const decoded = jwt.verify(token, serverManager.getInstance().getEnvironement().read<string>("JWT_SECRET_KEY"))
+        const decoded = jwt.verify(token, ServerManager.getInstance().getEnvironement().read<string>("JWT_SECRET_KEY"))
         if (isTypeNull<CustomRequest>(decoded)) {
             return response.status(500).json({
                 status: false,

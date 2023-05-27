@@ -36,7 +36,7 @@ app.use(parser.json())
 
 export default class ServerManager {
 
-    public readonly instance: ServerManager
+    public static instance: ServerManager
 
     private routes: Array<BaseRoute>
     private server: http.Server
@@ -58,7 +58,7 @@ export default class ServerManager {
 
             this.startServices()
             this.environement.catch<Error>()
-            this.instance = this
+            ServerManager.instance = this
         }
     }
 
@@ -108,7 +108,7 @@ export default class ServerManager {
         this.server.listen(this.environement.read<Int>("PORT") || 3659)
     }
 
-    public getInstance(): ServerManager {
+    public static getInstance(): ServerManager {
         return this.instance
     }
 

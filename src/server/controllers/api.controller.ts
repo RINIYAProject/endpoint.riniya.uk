@@ -1,6 +1,6 @@
 import { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware";
 import { BaseController } from "@riniya.ts/server/base/BaseController";
-import { serverManager } from "@riniya.ts/server/index";
+import ServerManager from "@riniya.ts/server/index";
 import { Str } from "@riniya.ts/types";
 import { Response } from "express";
 
@@ -17,7 +17,7 @@ class ApiController extends BaseController {
         return response.status(200).json({
             status: true,
             data: {
-                invite_url: `https://discord.com/api/oauth2/authorize?client_id=${serverManager.getEnvironement().read<Str>("RINIYA_APP_IDENTIFIER")}&permissions=8&scope=bot`
+                invite_url: `https://discord.com/api/oauth2/authorize?client_id=${ServerManager.getInstance().getEnvironement().read<Str>("RINIYA_APP_IDENTIFIER")}&permissions=8&scope=bot`
             }
         })
     }
