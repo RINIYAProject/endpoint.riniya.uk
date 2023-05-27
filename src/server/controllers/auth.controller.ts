@@ -80,7 +80,7 @@ class AuthenticationController extends BaseController {
                 request: {
                     code: 403,
                     error: "ACCOUNT_NOT_FOUND",
-                    message: error.error
+                    message: error
                 }
             })
         })

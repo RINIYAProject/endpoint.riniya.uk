@@ -39,7 +39,7 @@ export function isTypeNull<T>(object: unknown): Boolean {
 export async function fetchUser(username: string, password: string): Promise<IUser> {
     const profile = await User.findOne({username: username})
     return new Promise<IUser>((resolve, reject) => {
-        if (isNull(profile.identifier)) {
+        if (!isNull(profile) && isNull(profile.identifier)) {
             reject({
                 status: false,
                 error: "Please check the username or password."
@@ -123,7 +123,7 @@ export function generate(): string {
 /**
  * @param identifier User identifier
  * @param type Type of token (confirm_email, reset_password,...)
- * @description Generating a 6 digits OTP code and saving in the database.
+ * @description Generating a 6 digits OTP code and saving in the database
  */
 export async function createToken(identifier: string, type: string): Promise<string> {
     if (isNull(identifier))

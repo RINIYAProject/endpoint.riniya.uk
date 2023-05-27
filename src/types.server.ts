@@ -8,7 +8,7 @@ export interface Base<T> {
 export interface ErrorOption {
     code: number;
     error: string;
-    message: string;
+    message: string | any;
 } 
 
 export interface ResultOption<T> {
