@@ -49,22 +49,22 @@ export default class ServerManager {
     private readonly database: Database
 
     public constructor() {
+        ServerManager.instance = this
+        this.environement = new Environement()
+        this.environement.catch<Error>()
+        this.database = new Database()
+        
+        this.version = this.environement.read<Str>("VERSION") || "No version set."
+        this.revision = this.environement.read<Str>("REVISION") || "No revision set."
+
         if (this.environement.init()) {
             console.error("-> Failed to setup the configuration.")
         } else {
             console.log("-> Configuration loaded.")
             console.log(`-> Version : ${this.version}`)
             console.log(`-> Revision : ${this.revision}`)
-            ServerManager.instance = this
-
-            this.environement = new Environement()
-            this.database = new Database()
-
-            this.version = this.environement.read<Str>("VERSION") || "No version set."
-            this.revision = this.environement.read<Str>("REVISION") || "No revision set."
-
+            
             this.startServices()
-            this.environement.catch<Error>()
         }
     }
 
