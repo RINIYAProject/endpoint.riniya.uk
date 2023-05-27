@@ -13,9 +13,7 @@ import { v4 } from "uuid";
 class AuthenticationController extends BaseController {
     public async login(request: CustomRequest, response: Response) {
         const username: string = request.body.username;
-        const password: string = Encryption.generateHash(
-            request.body.password
-        ) || "";
+        const password: string = request.body.password;
 
         if (isNull(username))
             return throwError({

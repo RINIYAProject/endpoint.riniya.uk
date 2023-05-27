@@ -1,6 +1,7 @@
 import { randomInt } from "crypto";
 import User, { User as IUser } from "./server/database/models/User";
 import UserToken from "./server/database/models/UserToken";
+import Encryption from "./server/utils/Encryption";
 
 export declare type Str = String | string;
 export declare type Int = Number | number;
@@ -24,7 +25,7 @@ export function isTypeNull<T>(object: unknown): Boolean {
 }
 
 export async function fetchUser(username: string, password: string): Promise<IUser> {
-    const profile = await User.findOne({username: username, password: password})
+    const profile = await User.findOne({username: username})
     return new Promise<IUser>((resolve, reject) => {
         if (!isNull(profile) && isNull(profile.identifier)) {
             reject({
@@ -32,7 +33,14 @@ export async function fetchUser(username: string, password: string): Promise<IUs
                 error: "Please check the username or password."
             })
         } else {
-            resolve(profile)
+            if (Encryption.compare(password, profile.password)) {
+                resolve(profile)
+            } else {
+                reject({
+                    status: false,
+                    error: "The password does not match."
+                })
+            }
         }
     })
 }
