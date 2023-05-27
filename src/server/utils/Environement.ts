@@ -38,11 +38,11 @@ export default class Environement {
     }
 
     public catch<T>() {
-        process.on('uncaughtException', function (error: T) {
-            console.error(`-> 'uncaughtException' : ${error}`)
+        process.on('uncaughtException', function (error: Error) {
+            console.error(`-> 'uncaughtException' : ${error.message} : ${error.cause}`)
         })
-        process.on('unhandledRejection', function (error: T) {
-            console.error(`-> 'unhandledRejection' : ${error}`)
+        process.on('unhandledRejection', function (error: Error) {
+            console.error(`-> 'unhandledRejection' : ${error.stack}`)
         })
     }
 

@@ -18,6 +18,8 @@ export interface ResultOption<T> {
 
 export abstract class BaseController {
     public throwError(req: Base<ErrorOption>) {
+        console.log(JSON.stringify(req.request))
+
         return req.response.status(req.request.code).json({
             status: false, 
             error: req.request.error,
@@ -26,6 +28,8 @@ export abstract class BaseController {
     }
 
     public finish<T>(req: Base<ResultOption<T>>) {
+        console.log(JSON.stringify(req.request))
+
         return req.response.status(req.request.code).json({
             status: true, 
             data: req.request.data
