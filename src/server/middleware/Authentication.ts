@@ -8,21 +8,19 @@ class Authentication extends BaseMiddleware {
     public handle(request: CustomRequest, response: Response, next: NextFunction) {
         const token = request.header("Authorization")?.replace("Bearer ", "");
 
-        if (isNull(token)) {
+        if (isNull(token))
             return response.status(403).json({
                 status: false,
                 error: "INVALID_TOKEN"
             }).end();
-        }
-        
+    
         const decoded = jwt.verify(token, ServerManager.instance.environement.read<string>("JWT_SECRET_KEY"))
-        if (isTypeNull<CustomRequest>(decoded)) {
+        if (isTypeNull<CustomRequest>(decoded))
             return response.status(500).json({
                 status: false,
-                error: "INTERNAL_ERROR"
+                error: "Invalid account data or signature does not match."
             }).end();
-        }
-    
+        
         request.token = decoded
         return next();
     }

@@ -115,10 +115,14 @@ export default class ServerManager {
         })
 
         this.routes.forEach(x => {
-            if (x.isProtected())
+            if (x.isProtected()) {
+                console.log(`[+] Registering router : ${x} as 'protected'`)
                 app.use('/api', Authentication.handle , x.routing())
-            else 
+            }
+            else {
+                console.log(`[+] Registering router : ${x} as 'un-protected'`)
                 app.use('/api', x.routing())
+            }
         })
 
         this.server.listen(this.environement.read<Int>("PORT") || 3659)

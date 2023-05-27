@@ -12,6 +12,7 @@ export interface Security {
     isMFAEnabled: boolean;
     isEmailVerified: boolean;
     isTerminated: boolean;
+    isOnboardFinished: boolean;
 }
 
 export interface User {
@@ -28,8 +29,8 @@ export default mongoose.model<User & mongoose.Document>("Users", new mongoose.Sc
     roleIdentifier: { type: String, required: true },
     identifier: { type: String, unique: true, required: true },
     username: { type: String, unique: true, required: true },
-    password: { type: String },
+    password: { type: String, required: true },
     email: { type: String, unique: true, required: true },
-    profile: { type: Object },
-    security: { type: Object }
+    profile: { type: Object, required: true },
+    security: { type: Object, required: true }
 }));

@@ -9,9 +9,8 @@ export interface IBlacklist {
 }
 
 export default mongoose.model<IBlacklist & mongoose.Document>("Blacklist", new mongoose.Schema<IBlacklist & mongoose.Document>({
-    userId: { type: String },
-    caseId: { type: String },
-    reason: { type: String },
-    issuedBy: { type: String },
+    userId: { type: String, unique: true, required: true },
+    reason: { type: String, required: true },
+    issuedBy: { type: String, required: true },
     registeredAt: { type: Date, default: Date.now() }
 }));

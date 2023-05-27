@@ -1,12 +1,41 @@
 import { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware";
 import { BaseController } from "@riniya.ts/server/base/BaseController";
-import { serverManager } from "@riniya.ts/server/index";
-import { Str } from "@riniya.ts/types";
+import { Guild } from "@riniya.ts/server/database/models/api/Guild";
+import { fetchGuilds, fetchGuildById } from "@riniya.ts/types.api";
 import { Response } from "express";
+import { isNull } from "@riniya.ts/types";
 
 class GuildController extends BaseController {
-    public fetchGuilds(request: CustomRequest, response: Response) {}
-    public fetchGuildById(request: CustomRequest, response: Response) {}
+    public async fetchGuilds(request: CustomRequest, response: Response) {
+        return this.finish<Guild[]>({
+            response: response,
+            request: {
+                code: 200,
+                data: await fetchGuilds()
+            }
+        })
+    }
+
+    public async fetchGuildById(request: CustomRequest, response: Response) {
+        const identifier: string = request.params.identifier;
+        if (isNull(identifier))
+            return this.throwError({
+                response: response,
+                request: {
+                    code: 403,
+                    error: "IDENTIFIER_INVALID",
+                    message: "Please specify the 'guildId'."
+                }
+            })
+
+        return this.finish<Guild>({
+            response: response,
+            request: {
+                code: 200,
+                data: await fetchGuildById(identifier)
+            }
+        })
+    }
     public fetchMembers(request: CustomRequest, response: Response) {}
     public fetchMemberById(request: CustomRequest, response: Response) {}
     public fetchMemberProfile(request: CustomRequest, response: Response) {}
