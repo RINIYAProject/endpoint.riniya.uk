@@ -4,7 +4,7 @@ import { isNull } from "@riniya.ts/types"
 
 export default class Encryption {
     private static fetchSalt(): string {
-        return ServerManager.instance.environement.read<string>("BCRYPT_SALT_ROUND") || bcrypt.genSaltSync(10)
+        return bcrypt.genSaltSync(10)
     }
     
     public static generateHash(value: string): string {
@@ -17,7 +17,7 @@ export default class Encryption {
         if (isNull(fX) || isNull(fV))
             throw new Error("Cannot compare blank values.")
         return bcrypt.compareSync(
-            fX, bcrypt.hashSync(fV, this.fetchSalt())
+            fX, fV
         )
     }
 }
