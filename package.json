@@ -83,6 +83,6 @@
     "stylelint-config-standard": "^33.0.0"
   },
   "_moduleAliases": {
-    "@riniya.ts/": "build"
+    "@riniya.ts": "build"
   }
 }
