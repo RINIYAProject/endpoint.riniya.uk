@@ -1,12 +1,13 @@
+import { Result, createToken, fetchUser, fetchUserByEmail, fetchUserByName, isNull } from "@riniya.ts/types";
 import { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware";
 import { BaseController } from "@riniya.ts/server/base/BaseController";
+import User, { Partials } from "@riniya.ts/server/database/models/User";
+import { finish, throwError } from "@riniya.ts/types.server";
+import Encryption from "@riniya.ts/server/utils/Encryption";
 import ServerManager from "@riniya.ts/server/index";
-import { Result, createToken, fetchUser, fetchUserByEmail, fetchUserByName, isNull } from "@riniya.ts/types";
-import { Response } from "express";
-import Encryption from "../utils/Encryption";
 
+import { Response } from "express";
 import jwt from "jsonwebtoken"
-import User, { Partials } from "../database/models/User";
 import { v4 } from "uuid";
 
 class AuthenticationController extends BaseController {
@@ -17,7 +18,7 @@ class AuthenticationController extends BaseController {
         ) || "";
 
         if (isNull(username))
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 403,
@@ -31,7 +32,7 @@ class AuthenticationController extends BaseController {
             password
         ).then(profile => {
             if (profile.security.isTerminated) {
-                return this.throwError({
+                return throwError({
                     response: response,
                     request: {
                         code: 403,
@@ -42,7 +43,7 @@ class AuthenticationController extends BaseController {
             }
 
             if (!profile.security.isEmailVerified) {
-                return this.throwError({
+                return throwError({
                     response: response,
                     request: {
                         code: 403,
@@ -58,7 +59,7 @@ class AuthenticationController extends BaseController {
              * @todo if (profile.security.isMFAEnabled) {}
              */
 
-            return this.finish<{
+            return finish<{
                 token: string;
             }>({
                 response: response,
@@ -74,7 +75,7 @@ class AuthenticationController extends BaseController {
                 }
             })
         }).catch((error: Result) => {
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 403,
@@ -86,7 +87,7 @@ class AuthenticationController extends BaseController {
     }
 
     public logout(request: CustomRequest, response: Response) {
-        return this.throwError({
+        return throwError({
             response: response,
             request: {
                 code: 501,
@@ -106,7 +107,7 @@ class AuthenticationController extends BaseController {
             && isNull(password)
             && isNull(profile)
             && isNull(email))
-                return this.throwError({
+                return throwError({
                     response: response,
                     request: {
                         code: 501,
@@ -117,7 +118,7 @@ class AuthenticationController extends BaseController {
 
         await fetchUserByEmail(email).then(account => {
             if (!isNull(account.identifier)) {
-                return this.throwError({
+                return throwError({
                     response: response,
                     request: {
                         code: 501,
@@ -130,7 +131,7 @@ class AuthenticationController extends BaseController {
 
         await fetchUserByName(username).then(account => {
             if (!isNull(account.identifier)) {
-                return this.throwError({
+                return throwError({
                     response: response,
                     request: {
                         code: 501,
@@ -160,7 +161,7 @@ class AuthenticationController extends BaseController {
                 isOnboardFinished: false
             }
         }).save().catch(err => {
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 500,
@@ -170,7 +171,7 @@ class AuthenticationController extends BaseController {
             })
         })
 
-        return this.finish<{
+        return finish<{
             result: string;
         }>({
             response: response,
@@ -187,7 +188,7 @@ class AuthenticationController extends BaseController {
         const email: string = request.body.email;
 
         if (isNull(email))
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 403,
@@ -210,7 +211,7 @@ class AuthenticationController extends BaseController {
     }
 
     public accountRecovery(request: CustomRequest, response: Response) {
-        return this.throwError({
+        return throwError({
             response: response,
             request: {
                 code: 501,
@@ -226,7 +227,7 @@ class AuthenticationController extends BaseController {
       * @description Sending a basic response, to avoid brutforcing.
       */
     private sendEmail(email: string, response: Response) {
-        return this.finish<{
+        return finish<{
             result: string;
         }>({
             response: response,

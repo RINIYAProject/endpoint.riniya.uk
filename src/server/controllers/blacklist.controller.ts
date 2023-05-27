@@ -1,15 +1,17 @@
+import { IBlacklist } from "@riniya.ts/server/database/models/api/Common/Blacklist";
 import { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware";
 import { BaseController } from "@riniya.ts/server/base/BaseController";
-import {  isNull } from "@riniya.ts/types";
-import { Response } from "express";
+import { finish, throwError } from "@riniya.ts/types.server";
 import { fetchBlacklist, removeBlacklist } from "@riniya.ts/types.api";
-import { IBlacklist } from "../database/models/api/Common/Blacklist";
+import { isNull } from "@riniya.ts/types";
+
+import { Response } from "express";
 
 class BlacklistController extends BaseController {
     public async fetch(request: CustomRequest, response: Response) {
         const identifier: string = request.body.identifier;
         if (isNull(identifier))
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 403,
@@ -19,7 +21,7 @@ class BlacklistController extends BaseController {
             })
         
         await fetchBlacklist(identifier).then(account => {
-            return this.finish<IBlacklist>({
+            return finish<IBlacklist>({
                 response: response,
                 request: {
                     code: 200,
@@ -27,7 +29,7 @@ class BlacklistController extends BaseController {
                 }
             })
         }).catch(err => {
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 500,
@@ -43,7 +45,7 @@ class BlacklistController extends BaseController {
      * @todo
      */
     public create(request: CustomRequest, response: Response) {
-        return this.throwError({
+        return throwError({
             response: response,
             request: {
                 code: 403,
@@ -56,7 +58,7 @@ class BlacklistController extends BaseController {
     public edit(request: CustomRequest, response: Response) {
         const identifier: string = request.body.identifier;
         if (isNull(identifier))
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 403,
@@ -73,7 +75,7 @@ class BlacklistController extends BaseController {
     public async remove(request: CustomRequest, response: Response) {
         const identifier: string = request.body.identifier;
         if (isNull(identifier))
-            this.throwError({
+            throwError({
                 response: response,
                 request: {
                     code: 403,
@@ -84,7 +86,7 @@ class BlacklistController extends BaseController {
         
         await fetchBlacklist(identifier).then(async sanction => {
             await removeBlacklist(identifier).then(op => {
-                return this.finish<{
+                return finish<{
                     identifier: string;
                     result: string;
                 }>({
@@ -98,7 +100,7 @@ class BlacklistController extends BaseController {
                     }
                 })
             }).catch(err => {
-                return this.throwError({
+                return throwError({
                     response: response,
                     request: {
                         code: 500,
@@ -108,7 +110,7 @@ class BlacklistController extends BaseController {
                 })
             })
         }).catch(err => {
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 500,

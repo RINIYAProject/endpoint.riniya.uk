@@ -1,5 +1,6 @@
 import { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware";
 import { BaseController } from "@riniya.ts/server/base/BaseController";
+import { finish, throwError } from "@riniya.ts/types.server";
 import ServerManager from "@riniya.ts/server/index";
 import { Str } from "@riniya.ts/types";
 import { Response } from "express";
@@ -7,7 +8,7 @@ import { Response } from "express";
 class ApiController extends BaseController {
     //TODO: Redis datastore sync 
     public fetchCommands(request: CustomRequest, response: Response) {
-        return this.throwError({
+        return throwError({
             response: response,
             request: {
                 code: 403,
@@ -18,7 +19,7 @@ class ApiController extends BaseController {
     }
 
     public fetchInvite(request: CustomRequest, response: Response) {
-        return this.finish<{
+        return finish<{
             invite_url: string;
         }>({
             response: response, 

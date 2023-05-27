@@ -2,12 +2,13 @@ import { CustomRequest } from "@riniya.ts/server/base/BaseMiddleware";
 import { BaseController } from "@riniya.ts/server/base/BaseController";
 import { Guild } from "@riniya.ts/server/database/models/api/Guild";
 import { fetchGuilds, fetchGuildById } from "@riniya.ts/types.api";
-import { Response } from "express";
+import { finish, throwError } from "@riniya.ts/types.server";
 import { isNull } from "@riniya.ts/types";
+import { Response } from "express";
 
 class GuildController extends BaseController {
     public async fetchGuilds(request: CustomRequest, response: Response) {
-        return this.finish<Guild[]>({
+        return finish<Guild[]>({
             response: response,
             request: {
                 code: 200,
@@ -19,7 +20,7 @@ class GuildController extends BaseController {
     public async fetchGuildById(request: CustomRequest, response: Response) {
         const identifier: string = request.params.identifier;
         if (isNull(identifier))
-            return this.throwError({
+            return throwError({
                 response: response,
                 request: {
                     code: 403,
@@ -28,7 +29,7 @@ class GuildController extends BaseController {
                 }
             })
 
-        return this.finish<Guild>({
+        return finish<Guild>({
             response: response,
             request: {
                 code: 200,
