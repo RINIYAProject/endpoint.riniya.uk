@@ -10,7 +10,6 @@ declare global {
 import 'module-alias/register';
 
 import Environement from "@riniya.ts/server/utils/Environement";
-import Authentication from "@riniya.ts/server/middleware/Authentication";
 import BaseRoute from "@riniya.ts/server/base/BaseRoute";
 import Database from "@riniya.ts/server/database/index";
 import APIRoutes from "@riniya.ts/server/routes/api.routes";
@@ -119,14 +118,8 @@ export default class ServerManager {
         })
 
         this.routes.forEach(x => {
-            if (x.isProtected()) {
-                console.log(`[+] Registering router : ${x} as 'protected'`)
-                app.use('/api', Authentication.handle , x.routing())
-            }
-            else {
-                console.log(`[+] Registering router : ${x} as 'un-protected'`)
-                app.use('/api', x.routing())
-            }
+            console.log(`[+] Registering router : ${x}`)
+            app.use('/api', x.routing())
         })
 
         this.server.listen(this.environement.read<Int>("PORT") || 3659)

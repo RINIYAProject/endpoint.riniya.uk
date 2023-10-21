@@ -12,11 +12,10 @@ class Authentication extends BaseMiddleware {
             return response.status(403).json({
                 status: false,
                 error: "AUTHENTICATION_REQUIRED",
-                message: "Please authenticate to use the resources."
+                message: "Please authenticate to use this resources."
             }).end();
     
         jwt.verify(token, ServerManager.instance.environement.read<string>("JWT_SECRET_KEY").replaceAll('-', ''), (error, decoded) => {
-
             if (error) {
                 return response.status(403).json({
                     status: false,
